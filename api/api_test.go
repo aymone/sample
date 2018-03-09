@@ -32,16 +32,16 @@ func TestMainHandler(t *testing.T) {
 
 		responseWriter := httptest.NewRecorder()
 		accessTokenHeader := "password"
-		expectedCode := http.StatusOK
-		expectedBody := []byte("authenticated with success.")
-
 		request.Header.Set("X-Access-Token", accessTokenHeader)
+
 		api.MainHandler(responseWriter, request)
 
+		expectedCode := http.StatusOK
 		if expectedCode != responseWriter.Code {
 			t.Errorf("status code didn't match: \n\t%q\n\t%q", expectedCode, responseWriter.Code)
 		}
 
+		expectedBody := []byte("authenticated with success.")
 		if !bytes.Equal(expectedBody, responseWriter.Body.Bytes()) {
 			t.Errorf("status code didn't match: \n\t%q\n\t%q", expectedBody, responseWriter.Body.String())
 		}
@@ -55,8 +55,8 @@ func TestMainHandler(t *testing.T) {
 
 		responseWriter := httptest.NewRecorder()
 		accessTokenHeader := ""
-
 		request.Header.Set("X-Access-Token", accessTokenHeader)
+
 		api.MainHandler(responseWriter, request)
 
 		expectedCode := http.StatusForbidden
