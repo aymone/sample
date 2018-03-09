@@ -18,7 +18,7 @@ func Auth(token string) bool {
 func MainHandler(w http.ResponseWriter, r *http.Request) {
 	accessToken := r.Header.Get("X-Access-Token")
 	if Auth(accessToken) {
-		fmt.Fprint(w, "authenticated with success.\n")
+		fmt.Fprint(w, "authenticated with success.")
 		return
 	}
 
