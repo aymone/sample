@@ -8,5 +8,6 @@ import (
 )
 
 func main() {
-	log.Fatal(http.ListenAndServe(":8080", api.Server()))
+	h := &api.AppHandler{}
+	log.Fatal(http.ListenAndServe(":8080", api.Server(h)))
 }

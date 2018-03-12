@@ -15,16 +15,24 @@ func Auth(token string) bool {
 }
 
 // Server will link net/http server with request handler
-func Server() http.Handler {
+func Server(h Handler) http.Handler {
 	r := http.NewServeMux()
 
-	r.HandleFunc("/api", MainHandler)
+	r.HandleFunc("/api", h.MainHandler)
 
 	return r
 }
 
+// Handler interface
+type Handler interface {
+	MainHandler(http.ResponseWriter, *http.Request)
+}
+
+// AppHandler will handle api
+type AppHandler struct{}
+
 // MainHandler ...
-func MainHandler(w http.ResponseWriter, r *http.Request) {
+func (h *AppHandler) MainHandler(w http.ResponseWriter, r *http.Request) {
 	accessToken := r.Header.Get("X-Access-Token")
 	if Auth(accessToken) {
 		fmt.Fprint(w, "authenticated with success.")
